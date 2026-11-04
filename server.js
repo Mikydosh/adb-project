@@ -6,6 +6,7 @@ const { MongoClient } = require("mongodb");
 
 // 2. Create the API application
 const app = express();
+app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 // 3. Prepare the connection to MongoDB Atlas
@@ -17,12 +18,14 @@ const client = new MongoClient(process.env.MONGODB_URI);
 let db;
 
 
-// ============= ENDPOINTS ============= 
+// ============= HOME ============= 
 // Test endpoint: is the API running?
 app.get("/", (req, res) => {
     res.send("My API is running!");
 });
 
+
+// ================== [GET] ==================
 // --------- BEERS ---------
 // GET /beers: return all documents from the beers collection
 app.get("/beers", async (req, res) => {
@@ -34,6 +37,26 @@ app.get("/beers", async (req, res) => {
         res.status(500).json({ error: "Could not read beers from the database" });
     }
 });
+
+
+// GET /beers/search?query=...: search beers with the text index
+app.get("/beers/search", async (req, res) => {
+    try {
+        const query = req.query.query;
+        if (typeof query !== "string" || query.trim() === "") {
+            return res.status(400).json({ error: "Give a search term, for example /beers/search?query=ipa" });
+        }
+        const beers = await db.collection("beers")
+            .find({ $text: { $search: query } }, { projection: { score: { $meta: "textScore" } } })
+            .sort({ score: { $meta: "textScore" } })
+            .toArray();
+        res.status(200).json(beers);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not search the beers" });
+    }
+});
+
 
 // GET /beers/:id: return ONE beer by its beer_id
 app.get("/beers/:id", async (req, res) => {
@@ -81,6 +104,63 @@ app.get("/breweries/:id", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Could not read the brewery from the database" });
+    }
+});
+
+
+// ================== [POST] ==================
+// POST /beers: add a new beer
+app.post("/beers", async (req, res) => {
+    try {
+        const body = req.body || {};
+
+        // A: validate the body
+        const errors = [];
+        if (!Number.isInteger(body.beer_id)) {
+            errors.push("beer_id is required and must be a whole number");
+        }
+        if (typeof body.name !== "string" || body.name.trim() === "") {
+            errors.push("name is required and must be text");
+        }
+        if (typeof body.style !== "string" || body.style.trim() === "") {
+            errors.push("style is required and must be text");
+        }
+        if (typeof body.abv !== "number" || body.abv < 0 || body.abv > 100) {
+            errors.push("abv is required and must be a number from 0 to 100");
+        }
+        if (!Number.isInteger(body.brewery_id)) {
+            errors.push("brewery_id is required and must be a whole number");
+        }
+        if (errors.length > 0) {
+            return res.status(400).json({ errors: errors });
+        }
+
+        // B: no duplicate, brewery must exist, build the document
+        const existing = await db.collection("beers").findOne({ beer_id: body.beer_id });
+        if (existing) {
+            return res.status(409).json({ error: `Beer ${body.beer_id} already exists` });
+        }
+        const brewery = await db.collection("breweries").findOne({ brewery_id: body.brewery_id });
+        if (!brewery) {
+            return res.status(400).json({ errors: [`brewery_id ${body.brewery_id} does not exist`] });
+        }
+
+        // C: build the new beer document
+        const newBeer = {
+            beer_id: body.beer_id,
+            name: body.name,
+            style: body.style,
+            abv: body.abv,
+            description: body.description || "",
+            brewery_id: body.brewery_id
+        };
+
+        // D: insert it and send it back
+        await db.collection("beers").insertOne(newBeer);
+        res.status(201).json(newBeer);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not add the beer" });
     }
 });
 

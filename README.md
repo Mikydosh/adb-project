@@ -13,7 +13,7 @@ Backend for a beer catalog: Node.js + Express + MongoDB Atlas (official Node.js 
 
 1. Clone repository
    ```
-   git clone https://github.com/Mikydosh/adb-api.git
+   git clone https://github.com/Mikydosh/adb-project.git
    cd adb-project
    ```
 
@@ -37,7 +37,7 @@ Backend for a beer catalog: Node.js + Express + MongoDB Atlas (official Node.js 
    | `DB_NAME` | Name of the database that holds the collections |
    | `PORT` | Port the API listens on (optional, default 3000) |
 
-   The `.env` file contains the database password. Do not commit or share it.
+   ⚠️ The `.env` file contains the database password. Never commit or share it.
 
 4. In Atlas, open **Network Access** and add your current IP address.
    This must be repeated when working from a new network.
@@ -78,3 +78,56 @@ Database: MongoDB Atlas, two collections linked by `brewery_id`.
 | `founded_year` | Year the brewery was founded |
 
 Relationship: `beers.brewery_id` → `breweries.brewery_id`
+
+### Indexes
+
+Text index on `beers`, used by the search endpoint:
+
+```js
+db.beers.createIndex({ name: "text", style: "text", description: "text" })
+```
+
+## 📡 API Endpoints
+
+Base URL: `http://localhost:3000`
+
+| Method | Endpoint | Description | Status |
+|---|---|---|---|
+| GET | `/beers` | All beers | Done |
+| GET | `/beers/:id` | One beer by `beer_id` | Done |
+| GET | `/breweries` | All breweries | Done |
+| GET | `/breweries/:id` | One brewery by `brewery_id` | Done |
+| GET | `/beers/search?query=` | Text search in beers | Done |
+| POST | `/beers` | Add a new beer | Done |
+| PUT | `/beers/:id` | Edit a beer | Planned |
+| DELETE | `/beers/:id` | Delete a beer | Planned |
+
+Status codes: `200` OK, `201` created, `400` invalid input, `404` not found, `409` duplicate `beer_id`, `500` server error.
+
+### Text search
+
+| | |
+|---|---|
+| Collection | `beers` |
+| Indexed fields | `name`, `style`, `description` |
+| Query | `{ $text: { $search: query } }`, sorted by `textScore` |
+| Endpoint | `GET /beers/search?query=ipa` |
+
+Search is case-insensitive. An empty `query` returns `400`; no match returns `200` with an empty list.
+
+### Add a beer
+
+`POST /beers` with a JSON body:
+
+```json
+{
+  "beer_id": 31,
+  "name": "Example Lager",
+  "style": "Lager",
+  "abv": 4.8,
+  "description": "Optional text",
+  "brewery_id": 1
+}
+```
+
+Required: `beer_id` (whole number, unique), `name`, `style` (text), `abv` (number 0–100), `brewery_id` (existing brewery). `description` is optional.
