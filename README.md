@@ -93,14 +93,14 @@ Base URL: `http://localhost:3000`
 
 | Method | Endpoint | Description | Status |
 |---|---|---|---|
-| GET | `/beers` | All beers | Done |
-| GET | `/beers/:id` | One beer by `beer_id` | Done |
-| GET | `/breweries` | All breweries | Done |
-| GET | `/breweries/:id` | One brewery by `brewery_id` | Done |
-| GET | `/beers/search?query=` | Text search in beers | Done |
-| POST | `/beers` | Add a new beer | Done |
-| PUT | `/beers/:id` | Edit a beer | Planned |
-| DELETE | `/beers/:id` | Delete a beer | Planned |
+| GET | `/beers` | All beers | ✅ Done |
+| GET | `/beers/:id` | One beer by `beer_id` | ✅ Done |
+| GET | `/breweries` | All breweries | ✅ Done |
+| GET | `/breweries/:id` | One brewery by `brewery_id` | ✅ Done |
+| GET | `/beers/search?query=` | Text search in beers | ✅ Done |
+| POST | `/beers` | Add a new beer | ✅ Done |
+| PUT | `/beers/:id` | Edit a beer | ✅ Done |
+| DELETE | `/beers/:id` | Delete a beer | ✅ Done |
 
 Status codes: `200` OK, `201` created, `400` invalid input, `404` not found, `409` duplicate `beer_id`, `500` server error.
 
@@ -131,3 +131,20 @@ Search is case-insensitive. An empty `query` returns `400`; no match returns `20
 ```
 
 Required: `beer_id` (whole number, unique), `name`, `style` (text), `abv` (number 0–100), `brewery_id` (existing brewery). `description` is optional.
+
+### Edit a beer
+
+`PUT /beers/:id` with a JSON body containing only the fields to change:
+
+```json
+{
+  "abv": 5.2,
+  "description": "New description"
+}
+```
+
+Allowed fields: `name`, `style`, `abv`, `description`, `brewery_id` (must exist). `beer_id` cannot be changed. Returns the updated beer, `404` if the beer does not exist, `400` for invalid or empty input.
+
+### Delete a beer
+
+`DELETE /beers/:id` has no body. Returns `200` with a confirmation message, or `404` if the beer does not exist.
