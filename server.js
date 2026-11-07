@@ -165,9 +165,91 @@ app.post("/beers", async (req, res) => {
 });
 
 
+// ================== [PUT] ==================
+// PUT /beers/:id: change an existing beer
+app.put("/beers/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({ error: "Beer ID must be a whole number" });
+        }
+        const body = req.body || {};
+
+        // A: check only the fields the client sent
+        const errors = [];
+        if (body.name !== undefined && (typeof body.name !== "string" || body.name.trim() === "")) {
+            errors.push("name must be text and not empty");
+        }
+        if (body.style !== undefined && (typeof body.style !== "string" || body.style.trim() === "")) {
+            errors.push("style must be text and not empty");
+        }
+        if (body.abv !== undefined && (typeof body.abv !== "number" || body.abv < 0 || body.abv > 100)) {
+            errors.push("abv must be a number from 0 to 100");
+        }
+        if (body.description !== undefined && typeof body.description !== "string") {
+            errors.push("description must be text");
+        }
+        if (body.brewery_id !== undefined && !Number.isInteger(body.brewery_id)) {
+            errors.push("brewery_id must be a whole number");
+        }
+        if (errors.length > 0) {
+            return res.status(400).json({ errors: errors });
+        }
+
+        // B: collect the allowed changes (beer_id is never changed)
+        const allowed = ["name", "style", "abv", "description", "brewery_id"];
+        const changes = {};
+        for (const field of allowed) {
+            if (body[field] !== undefined) {
+                changes[field] = body[field];
+            }
+        }
+        if (Object.keys(changes).length === 0) {
+            return res.status(400).json({ error: "Send at least one field to change: " + allowed.join(", ") });
+        }
+        if (changes.brewery_id !== undefined) {
+            const brewery = await db.collection("breweries").findOne({ brewery_id: changes.brewery_id });
+            if (!brewery) {
+                return res.status(400).json({ errors: [`brewery_id ${changes.brewery_id} does not exist`] });
+            }
+        }
+
+        // C: update, then send the beer back as it is now
+        const result = await db.collection("beers").updateOne({ beer_id: id }, { $set: changes });
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ error: `Beer ${id} not found` });
+        }
+        const beer = await db.collection("beers").findOne({ beer_id: id });
+        res.status(200).json(beer);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not change the beer" });
+    }
+});
+
+
+// ================== [DELETE] ==================
+// DELETE /beers/:id: delete one beer
+app.delete("/beers/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({ error: "Beer ID must be a whole number" });
+        }
+        const result = await db.collection("beers").deleteOne({ beer_id: id });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: `Beer ${id} not found` });
+        }
+        res.status(200).json({ message: `Beer ${id} deleted` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not delete the beer" });
+    }
+});
+
 
 // ============= START THE API =============
-// 6. Connect to Atlas first, then start the API
+// Connect to Atlas first, then start the API
 async function start() {
     await client.connect();
     db = client.db(process.env.DB_NAME);
