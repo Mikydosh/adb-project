@@ -7,6 +7,7 @@ const { MongoClient } = require("mongodb");
 // 2. Create the API application
 const app = express();
 app.use(express.json());
+app.use(express.static("public")); // serve the static files from the public folder
 const PORT = process.env.PORT || 3000;
 
 // 3. Prepare the connection to MongoDB Atlas
@@ -122,6 +123,9 @@ app.post("/beers", async (req, res) => {
         if (typeof body.name !== "string" || body.name.trim() === "") {
             errors.push("name is required and must be text");
         }
+        if (!Number.isInteger(body.plato) || body.plato < 0 || body.plato > 40) {
+            errors.push("plato is required and must be a whole number from 0 to 40");
+        }
         if (typeof body.style !== "string" || body.style.trim() === "") {
             errors.push("style is required and must be text");
         }
@@ -149,6 +153,7 @@ app.post("/beers", async (req, res) => {
         const newBeer = {
             beer_id: body.beer_id,
             name: body.name,
+            plato: body.plato,
             style: body.style,
             abv: body.abv,
             description: body.description || "",
@@ -183,6 +188,9 @@ app.put("/beers/:id", async (req, res) => {
         if (body.style !== undefined && (typeof body.style !== "string" || body.style.trim() === "")) {
             errors.push("style must be text and not empty");
         }
+        if (body.plato !== undefined && (!Number.isInteger(body.plato) || body.plato < 0 || body.plato > 40)) {
+            errors.push("plato must be a whole number from 0 to 40");
+        }
         if (body.abv !== undefined && (typeof body.abv !== "number" || body.abv < 0 || body.abv > 100)) {
             errors.push("abv must be a number from 0 to 100");
         }
@@ -197,7 +205,7 @@ app.put("/beers/:id", async (req, res) => {
         }
 
         // B: collect the allowed changes (beer_id is never changed)
-        const allowed = ["name", "style", "abv", "description", "brewery_id"];
+        const allowed = ["name", "plato", "style", "abv", "description", "brewery_id"];
         const changes = {};
         for (const field of allowed) {
             if (body[field] !== undefined) {

@@ -1,13 +1,14 @@
 # 🍺 Beer Catalog
 
 Semester project for Advanced Database Systems (UTB FAI).
-Backend for a beer catalog: Node.js + Express + MongoDB Atlas (official Node.js driver).
+Beer catalog with a REST API and a web client: Node.js + Express + MongoDB Atlas (official Node.js driver), HTML + Bootstrap + JavaScript on the client.
 
 ## 📝 Requirements
 
 - Node.js 20.6 or newer (needed for `--env-file`)
 - A MongoDB Atlas cluster with the database and both collections created
 - Your current IP address allowed in Atlas (Network Access)
+- Internet connection in the browser (Bootstrap and Bootstrap Icons are loaded from a CDN)
 
 ## 🛠️ Setup
 
@@ -50,7 +51,7 @@ node --env-file=.env server.js
 
 The terminal should print `Connected to MongoDB Atlas` and
 `API running at http://localhost:3000`.
-Opening `http://localhost:3000/` in a browser shows `My API is running!`.
+Opening `http://localhost:3000/` in a browser shows the Home screen of the client (see the Client section below).
 
 ## 🛢 Database
 
@@ -64,6 +65,7 @@ Database: MongoDB Atlas, two collections linked by `brewery_id`.
 | `name` | Beer name |
 | `style` | Beer style |
 | `abv` | Alcohol by volume (%) |
+| `plato` | Original gravity in degrees Plato (whole number) |
 | `description` | Short description |
 | `brewery_id` | Reference to `breweries.brewery_id` |
 
@@ -76,6 +78,7 @@ Database: MongoDB Atlas, two collections linked by `brewery_id`.
 | `city` | City |
 | `country` | Country |
 | `founded_year` | Year the brewery was founded |
+| `website` | Official website of the brewery (URL) |
 
 Relationship: `beers.brewery_id` → `breweries.brewery_id`
 
@@ -86,6 +89,32 @@ Text index on `beers`, used by the search endpoint:
 ```js
 db.beers.createIndex({ name: "text", style: "text", description: "text" })
 ```
+
+## 🖥️ Client
+
+The client is a static web page served by the same Express server from the `public` folder. It never connects to MongoDB: every piece of data comes from the REST API through `fetch()`.
+
+```
+public/
+├── index.html   Home screen (page structure and JavaScript)
+└── style.css    Custom styles on top of Bootstrap
+```
+
+| Screen | File | Status |
+|---|---|---|
+| Home: list, search, open a beer, New button | `index.html` | ✅ Done |
+| Details: one beer with its brewery, Edit, Delete | `details.html` | ⏳ Planned |
+| New / Edit form | `edit.html` | ⏳ Planned |
+
+**Home screen**
+
+- Loads all beers from `GET /beers` when the page opens.
+- The search field calls `GET /beers/search?query=` (text index); an empty search shows all beers again, no match shows `No beers found.`
+- The **Show all** button clears the search and reloads the list.
+- The beer name links to `details.html?id=<beer_id>`.
+- If the API is not running, the page shows a message instead of failing silently.
+
+Styling: Bootstrap 5.3 and Bootstrap Icons from a CDN, plus `style.css` for colours, spacing and the table.
 
 ## 📡 API Endpoints
 
@@ -125,12 +154,13 @@ Search is case-insensitive. An empty `query` returns `400`; no match returns `20
   "name": "Example Lager",
   "style": "Lager",
   "abv": 4.8,
+  "plato": 12,
   "description": "Optional text",
   "brewery_id": 1
 }
 ```
 
-Required: `beer_id` (whole number, unique), `name`, `style` (text), `abv` (number 0–100), `brewery_id` (existing brewery). `description` is optional.
+Required: `beer_id` (whole number, unique), `name`, `style` (text), `abv` (number 0–100), `plato` (whole number 0–40), `brewery_id` (existing brewery). `description` is optional.
 
 ### Edit a beer
 
@@ -143,7 +173,7 @@ Required: `beer_id` (whole number, unique), `name`, `style` (text), `abv` (numbe
 }
 ```
 
-Allowed fields: `name`, `style`, `abv`, `description`, `brewery_id` (must exist). `beer_id` cannot be changed. Returns the updated beer, `404` if the beer does not exist, `400` for invalid or empty input.
+Allowed fields: `name`, `style`, `abv`, `plato`, `description`, `brewery_id` (must exist). `beer_id` cannot be changed. Returns the updated beer, `404` if the beer does not exist, `400` for invalid or empty input.
 
 ### Delete a beer
 

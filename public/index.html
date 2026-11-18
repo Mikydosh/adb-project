@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Beer Catalog</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🍺</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="container">
+            <h1 class="d-flex align-items-center gap-2">
+                <img src="img/hop.svg" alt="">
+                <span>Beer Catalog</span>
+            </h1>
+            <p>Home: all beers & search</p>
+        </div>
+    </header>
+
+
+    <main class="container app-main">
+        <form id="searchForm" class="search-bar">
+            <div class="search-field">
+                <i class="bi bi-search"></i>
+                <input id="searchBox" type="text" class="form-control" aria-label="Search beers"
+                    placeholder="Search in name, style and description, e.g. ipa">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="button" class="btn btn-light" id="showAllButton">
+                <i class="bi bi-arrow-counterclockwise"></i> Show all
+            </button>
+        </form>
+
+        <div class="toolbar">
+            <div>
+                <h2 class="page-title">Beers</h2>
+                <p id="message">The page works. Now connect it to your API.</p>
+            </div>
+            <a href="edit.html" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New beer</a>
+        </div>
+
+        <div class="table-card">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-tag"></i> Name</th>
+                        <th><i class="bi bi-droplet"></i> Plato</th>
+                        <th><i class="bi bi-bookmark"></i> Style</th>
+                        <th><i class="bi bi-percent"></i> ABV</th>
+                    </tr>
+                </thead>
+                <tbody id="beerRows"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // =====================================================================
+        // GIVEN PART (from the tutorial, only field names changed)
+        // =====================================================================
+
+        function showBeers(beers) {
+            const rows = document.getElementById("beerRows");
+            rows.innerHTML = "";
+            
+            if (beers.length === 0) {
+                showMessage("No beers found.");
+                return;
+            }
+
+            if(beers.length === 1){
+                showMessage("Found 1 beer.");
+            } else {
+                showMessage("Found " + beers.length + " beers.");
+            }
+
+            for (const beer of beers) {
+                const row = document.createElement("tr");
+                const link = document.createElement("a");
+
+                link.href = "details.html?id=" + encodeURIComponent(beer.beer_id);
+                link.textContent = beer.name;
+
+                const nameCell = document.createElement("td");
+                nameCell.appendChild(link);
+                row.appendChild(nameCell);
+
+                addCell(row, beer.plato);
+                addCell(row, beer.style);
+                addCell(row, beer.abv);
+                rows.appendChild(row);
+            }
+        }
+
+        function addCell(row, text) {
+            const cell = document.createElement("td");
+            cell.textContent = text;
+            row.appendChild(cell);
+        }
+
+        function showMessage(text) {
+            document.getElementById("message").textContent = text;
+        }
+
+        document.getElementById("searchForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            searchBeers();
+        });
+        document.getElementById("showAllButton").addEventListener("click", () => {
+            document.getElementById("searchBox").value = "";
+            loadBeers();
+        });
+
+        // =====================================================================
+        // YOUR CODE (Tutorial 9)
+        // =====================================================================
+
+        async function loadBeers() {
+            try {
+                const response = await fetch("/beers");
+                if (!response.ok) {
+                    showMessage("Could not load the beers (status " + response.status + ")");
+                    return;
+                }
+                const beers = await response.json();
+
+                showBeers(beers);
+            } catch (error) {
+                showMessage("The API is not running. Start it with: node --env-file=.env server.js");
+            }
+        }
+
+        async function searchBeers() {
+            const text = document.getElementById("searchBox").value.trim();
+            if (text === "") {
+                loadBeers();
+                return;
+            }
+            try {
+                const response = await fetch("/beers/search?query=" + encodeURIComponent(text));
+                if (!response.ok) {
+                    showMessage("Search failed (status " + response.status + ")");
+                    return;
+                }
+                const beers = await response.json();
+                showBeers(beers);
+            } catch (error) {
+                showMessage("The API is not running. Start it with: node --env-file=.env server.js");
+            }
+        }
+
+        loadBeers();
+    </script>
+</body>
+
+</html>
