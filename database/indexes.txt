@@ -1,0 +1,1 @@
+db.beers.createIndex({ name: "text", style: "text", description: "text" })

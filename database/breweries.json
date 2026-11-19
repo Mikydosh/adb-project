@@ -1,0 +1,154 @@
+[{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b1"
+  },
+  "brewery_id": 1,
+  "name": "Rodinný pivovar Bernard",
+  "city": "Humpolec",
+  "country": "Czech Republic",
+  "founded_year": 1597,
+  "website": "https://www.bernard.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b2"
+  },
+  "brewery_id": 2,
+  "name": "Pivovar Holba",
+  "city": "Hanušovice",
+  "country": "Czech Republic",
+  "founded_year": 1874,
+  "website": "https://www.holba.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b3"
+  },
+  "brewery_id": 3,
+  "name": "Pivovar Radegast",
+  "city": "Nošovice",
+  "country": "Czech Republic",
+  "founded_year": 1970,
+  "website": "https://www.radegast.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b4"
+  },
+  "brewery_id": 4,
+  "name": "Rodinný pivovar Zichovec",
+  "city": "Louny",
+  "country": "Czech Republic",
+  "founded_year": 2012,
+  "website": "https://www.pivovarzichovec.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b5"
+  },
+  "brewery_id": 5,
+  "name": "Rodinný pivovar Rampušák",
+  "city": "Dobruška",
+  "country": "Czech Republic",
+  "founded_year": 2007,
+  "website": "https://www.pivovarrampusak.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b6"
+  },
+  "brewery_id": 6,
+  "name": "Pivovar Ogar",
+  "city": "Kunčice pod Ondřejníkem",
+  "country": "Czech Republic",
+  "founded_year": 2016,
+  "website": "https://www.pivovarogar.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b7"
+  },
+  "brewery_id": 7,
+  "name": "Lázeňský pivovar Luhačovice",
+  "city": "Luhačovice",
+  "country": "Czech Republic",
+  "founded_year": 2021,
+  "website": "https://www.pivovarluhacovice.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b8"
+  },
+  "brewery_id": 8,
+  "name": "Kyjovský pivovar",
+  "city": "Kyjov",
+  "country": "Czech Republic",
+  "founded_year": 2014,
+  "website": "https://www.kyjovsky-pivovar.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0b9"
+  },
+  "brewery_id": 9,
+  "name": "Plzeňský Prazdroj",
+  "city": "Plzeň",
+  "country": "Czech Republic",
+  "founded_year": 1842,
+  "website": "https://www.prazdroj.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0ba"
+  },
+  "brewery_id": 10,
+  "name": "Pivovar Matuška",
+  "city": "Broumy",
+  "country": "Czech Republic",
+  "founded_year": 2009,
+  "website": "https://www.pivovarmatuska.cz"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0bb"
+  },
+  "brewery_id": 11,
+  "name": "Heineken",
+  "city": "Amsterdam",
+  "country": "Netherlands",
+  "founded_year": 1864,
+  "website": "https://www.heineken.com"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0bc"
+  },
+  "brewery_id": 12,
+  "name": "Birra Peroni",
+  "city": "Rome",
+  "country": "Italy",
+  "founded_year": 1846,
+  "website": "https://www.birraperoni.it"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0bd"
+  },
+  "brewery_id": 13,
+  "name": "Tyskie Browary Książęce",
+  "city": "Tychy",
+  "country": "Poland",
+  "founded_year": 1629,
+  "website": "https://browarytyskie.pl"
+},
+{
+  "_id": {
+    "$oid": "6ada6fcb415f80009a74c0be"
+  },
+  "brewery_id": 14,
+  "name": "Stieglbrauerei zu Salzburg",
+  "city": "Salzburg",
+  "country": "Austria",
+  "founded_year": 1492,
+  "website": "https://www.stiegl.at"
+}]

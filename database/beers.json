@@ -1,0 +1,360 @@
+[{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c08e"
+  },
+  "beer_id": 1,
+  "name": "Bernard Světlé výčepní 10",
+  "style": "Pale Lager",
+  "abv": 3.8,
+  "plato": 10,
+  "description": "Bottom-fermented, unpasteurised pale draught beer brewed with Žatec hops. Light-bodied and pale golden with a mild bitterness.",
+  "brewery_id": 1
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c08f"
+  },
+  "beer_id": 2,
+  "name": "Bernard 11 světlý ležák",
+  "style": "Lager",
+  "abv": 4.5,
+  "plato": 11,
+  "description": "Bottom-fermented, unpasteurised Czech pale lager. Balanced bitterness with a malty body and a hoppy aroma.",
+  "brewery_id": 1
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c090"
+  },
+  "beer_id": 3,
+  "name": "Bernard Sváteční ležák 12",
+  "style": "Lager",
+  "abv": 5,
+  "plato": 12,
+  "description": "Bottom-fermented pale lager with fine yeast added at bottling, so it re-ferments in the bottle and may be slightly hazy. Lively carbonation with a yeasty aroma and flavour.",
+  "brewery_id": 1
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c091"
+  },
+  "beer_id": 4,
+  "name": "Bernard IPA",
+  "style": "IPA",
+  "abv": 5.6,
+  "plato": 12,
+  "description": "Top-fermented, full-bodied pale India Pale Ale brewed at 12 °P. Fruity hop aroma contrasted by a stronger bitterness.",
+  "brewery_id": 1
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c092"
+  },
+  "beer_id": 5,
+  "name": "Holba Keprník 12",
+  "style": "Lager",
+  "abv": 5,
+  "plato": 12,
+  "description": "Bottom-fermented golden-amber pale lager hopped with a blend of four Czech varieties: Premiant, Sládek, Žatec semi-early red and Saaz Brilliant. Clean, balanced bitterness.",
+  "brewery_id": 2
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c093"
+  },
+  "beer_id": 6,
+  "name": "Holba Horská 10",
+  "style": "Pale Lager",
+  "abv": 4.2,
+  "plato": 10,
+  "description": "Light-bodied pale draught beer brewed with water from the brewery's own well, Moravian barley malt and Czech hops. Crisp and refreshing character.",
+  "brewery_id": 2
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c094"
+  },
+  "beer_id": 7,
+  "name": "Radegast Ryze hořká 12",
+  "style": "Lager",
+  "abv": 5.1,
+  "plato": 12,
+  "description": "Bottom-fermented pale lager hopped three times with Czech hop varieties. Full-bodied with a pronounced bitter finish (36 IBU) and a hoppy aroma.",
+  "brewery_id": 3
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c095"
+  },
+  "beer_id": 8,
+  "name": "Radegast Rezist",
+  "style": "Lager",
+  "abv": 4.5,
+  "plato": 11,
+  "description": "Limited-edition 11 °P pale lager brewed with drought-resistant Czech hop varieties (Juno, Saaz Shine, Agnus). Bitter (39 IBU) with an earthy, grassy hop aroma.",
+  "brewery_id": 3
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c097"
+  },
+  "beer_id": 10,
+  "name": "Mosaic Ale 12",
+  "style": "APA",
+  "abv": 5.1,
+  "plato": 12,
+  "description": "Top-fermented single-hop American Pale Ale built around the Mosaic hop. Light malt body with citrus, fruity and floral hop notes.",
+  "brewery_id": 4
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c098"
+  },
+  "beer_id": 11,
+  "name": "Robin 12",
+  "style": "APA",
+  "abv": 5.1,
+  "plato": 12,
+  "description": "Pale, light-bodied American Pale Ale brewed with oat flakes and hopped with Citra and Simcoe. Citrus and resinous hop character with a moderate bitterness.",
+  "brewery_id": 4
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c099"
+  },
+  "beer_id": 12,
+  "name": "Dobrušská 11",
+  "style": "Lager",
+  "abv": 4.4,
+  "plato": 11,
+  "description": "Unfiltered, unpasteurised bottom-fermented pale lager with a full malty body. Medium carbonation and a balanced bitterness (33 EBU).",
+  "brewery_id": 5
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c09a"
+  },
+  "beer_id": 13,
+  "name": "Rampušák 12",
+  "style": "Lager",
+  "abv": 4.9,
+  "plato": 12,
+  "description": "Unfiltered, unpasteurised pale lager hopped with Žatec varieties Sládek, Saaz Late and Žatec semi-early red. Full malty body with a pronounced bitterness (35 EBU).",
+  "brewery_id": 5
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c09b"
+  },
+  "beer_id": 14,
+  "name": "Ogar Jedenáctka",
+  "style": "Lager",
+  "abv": 4.4,
+  "plato": 11,
+  "description": "Bottom-fermented pale lager brewed from Pilsner and Vienna malts with Czech hops (Žatec semi-early red, Premiant). Malty, bready character with a light bitterness (28 IBU).",
+  "brewery_id": 6
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c09c"
+  },
+  "beer_id": 15,
+  "name": "Ogar IPA 14",
+  "style": "IPA",
+  "abv": 6.3,
+  "plato": 14,
+  "description": "Top-fermented India Pale Ale brewed with four hop varieties and cold-hopped. Citrus aroma and flavour with a distinct bitterness (45 IBU).",
+  "brewery_id": 6
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c09d"
+  },
+  "beer_id": 16,
+  "name": "Ogar Kazbek 12",
+  "style": "Pale Lager",
+  "abv": 5.2,
+  "plato": 12,
+  "description": "Very pale 12 °P lager hopped and cold-hopped exclusively with the Czech Kazbek variety. Spicy bitterness with a floral and citrus aroma.",
+  "brewery_id": 6
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c09e"
+  },
+  "beer_id": 17,
+  "name": "Alojz 11",
+  "style": "Lager",
+  "abv": 4.3,
+  "plato": 11,
+  "description": "Unfiltered, unpasteurised bottom-fermented Pilsner-type lager brewed only with Pilsner malt. Very pale with a malty body and moderate bitterness (33 IBU).",
+  "brewery_id": 7
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c09f"
+  },
+  "beer_id": 18,
+  "name": "Vincent 12",
+  "style": "Lager",
+  "abv": 4.7,
+  "plato": 12,
+  "description": "Unfiltered, unpasteurised bottom-fermented Pilsner-type pale lager with a fuller body. Firmly bitter finish (40 IBU).",
+  "brewery_id": 7
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a0"
+  },
+  "beer_id": 19,
+  "name": "Fešák lázeňský 13",
+  "style": "India Pale Lager",
+  "abv": 5.1,
+  "plato": 13,
+  "description": "Bottom-fermented, cold-hopped India Pale Lager, unfiltered and unpasteurised. Clean lager base with a hoppy aroma and a long bitter finish (35 IBU).",
+  "brewery_id": 7
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a1"
+  },
+  "beer_id": 20,
+  "name": "Kyjovská Jedenáctka",
+  "style": "Lager",
+  "abv": 4.3,
+  "plato": 11,
+  "description": "Unfiltered, unpasteurised bottom-fermented pale lager brewed with barley and rye malt and matured for five weeks. Balanced body with a clean Czech hop bitterness.",
+  "brewery_id": 8
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a2"
+  },
+  "beer_id": 21,
+  "name": "Kyjovský prémiový ležák",
+  "style": "Lager",
+  "abv": 4.5,
+  "plato": 12,
+  "description": "Unfiltered, unpasteurised Pilsner-style pale lager produced by decoction mashing and matured for five weeks. Full body and lively carbonation (35 IBU).",
+  "brewery_id": 8
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a3"
+  },
+  "beer_id": 22,
+  "name": "Pilsner Urquell",
+  "style": "Lager",
+  "abv": 4.4,
+  "plato": 12,
+  "description": "Bottom-fermented pale lager of the original Pilsner type, hopped with Saaz hops (39 IBU). Firm bitterness balanced by the caramel-like sweetness of Pilsner malt.",
+  "brewery_id": 9
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a4"
+  },
+  "beer_id": 23,
+  "name": "Matuška 10°",
+  "style": "Pale Lager",
+  "abv": 4.2,
+  "plato": 10,
+  "description": "Pale draught lager brewed by double decoction mashing. Full body and a higher bitterness for its strength.",
+  "brewery_id": 10
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a5"
+  },
+  "beer_id": 24,
+  "name": "Matuška 12°",
+  "style": "Lager",
+  "abv": 5.1,
+  "plato": 12,
+  "description": "Unfiltered, unpasteurised Pilsner-style pale lager with a full body, hoppy aroma and pronounced bitterness.",
+  "brewery_id": 10
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a6"
+  },
+  "beer_id": 25,
+  "name": "Matuška Raptor IPA",
+  "style": "IPA",
+  "abv": 6.3,
+  "plato": 15,
+  "description": "Amber top-fermented India Pale Ale brewed at 15 °P and hopped with four varieties, including Saaz Special and Amarillo. Unfiltered and unpasteurised.",
+  "brewery_id": 10
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a7"
+  },
+  "beer_id": 26,
+  "name": "Matuška Apollo Galaxy",
+  "style": "Ale",
+  "abv": 5.5,
+  "plato": 13,
+  "description": "Top-fermented summer ale based on British pale ale, brewed at 13 °P (45 IBU). Galaxy and Citra hops add a tropical fruit aroma, Apollo hops provide the bitterness.",
+  "brewery_id": 10
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a8"
+  },
+  "beer_id": 27,
+  "name": "Heineken Lager",
+  "style": "Lager",
+  "abv": 5,
+  "plato": 11,
+  "description": "Bottom-fermented Dutch pale lager brewed from malted barley, water and hops with the brewery's proprietary A-yeast. Mild malt sweetness and a light hop bitterness (about 23 IBU).",
+  "brewery_id": 11
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0a9"
+  },
+  "beer_id": 28,
+  "name": "Peroni Nastro Azzurro",
+  "style": "Lager",
+  "abv": 5.1,
+  "plato": 11,
+  "description": "Pale golden Italian premium lager launched in 1963, brewed with barley malt and maize. Crisp and dry with a delicate bitterness and subtle citrus aroma.",
+  "brewery_id": 12
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0aa"
+  },
+  "beer_id": 29,
+  "name": "Tyskie Gronie",
+  "style": "Lager",
+  "abv": 5.2,
+  "plato": 11,
+  "description": "Golden Polish pale lager brewed in Tychy. Balance of hoppy bitterness and malty fullness with a sweeter malt character than the brewery's Classic variant.",
+  "brewery_id": 13
+},
+{
+  "_id": {
+    "$oid": "6ada6fa7415f80009a74c0ab"
+  },
+  "beer_id": 30,
+  "name": "Stiegl Goldbräu",
+  "style": "Märzen",
+  "abv": 5,
+  "plato": 12,
+  "description": "Austrian Märzen-style lager brewed at 12 °P with water from the Untersberg mountain. Bright golden with a clean, crisp finish and a finely balanced malt character.",
+  "brewery_id": 14
+},
+{
+  "_id": {
+    "$oid": "6afd87d9f169987ece96dadb"
+  },
+  "beer_id": 9,
+  "name": "Hotline 15",
+  "style": "IPA",
+  "abv": 7,
+  "plato": 15,
+  "description": "Top-fermented West Coast IPA with a dry, well-attenuated malt body and high bitterness. Citrus and resin hop character from Columbus, Mosaic, Citra, Cascade and Simcoe.",
+  "brewery_id": 4
+}]
