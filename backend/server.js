@@ -3,11 +3,12 @@
 // 1. Load the libraries we installed with npm
 const express = require("express");
 const { MongoClient } = require("mongodb");
+const path = require("path");
 
 // 2. Create the API application
 const app = express();
 app.use(express.json());
-app.use(express.static("public")); // serve the static files from the public folder
+app.use(express.static(path.join(__dirname, "..", "client"))); // serve the client files from the client folder
 const PORT = process.env.PORT || 3000;
 
 // 3. Prepare the connection to MongoDB Atlas
