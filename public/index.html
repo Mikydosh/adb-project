@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    <!-- Page header: logo and title -->
     <header class="app-header">
         <div class="container">
             <h1 class="d-flex align-items-center gap-2">
@@ -23,8 +24,9 @@
         </div>
     </header>
 
-
+    <!-- Page content -->
     <main class="container app-main">
+        <!-- Search bar: the form calls searchBeers(), Show all calls loadBeers() -->
         <form id="searchForm" class="search-bar">
             <div class="search-field">
                 <i class="bi bi-search"></i>
@@ -32,19 +34,21 @@
                     placeholder="Search in name, style and description, e.g. ipa">
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
-            <button type="button" class="btn btn-light" id="showAllButton">
-                <i class="bi bi-arrow-counterclockwise"></i> Show all
-            </button>
+            <button type="button" class="btn btn-light" id="showAllButton"><i class="bi bi-arrow-counterclockwise"></i> Show all</button>
         </form>
 
+
+        <!-- Title row: message (filled by showMessage) and the New beer button -->
         <div class="toolbar">
             <div>
                 <h2 class="page-title">Beers</h2>
                 <p id="message">The page works. Now connect it to your API.</p>
             </div>
-            <a href="edit.html" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New beer</a>
+            <a href="form.html" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New beer</a>
         </div>
 
+
+        <!-- Table of beers: the rows are created by showBeers() -->
         <div class="table-card">
             <table class="table table-striped table-hover align-middle mb-0">
                 <thead>
@@ -65,23 +69,27 @@
         // GIVEN PART (from the tutorial, only field names changed)
         // =====================================================================
 
+        // Show a list of beers in the table, with a message about the count
         function showBeers(beers) {
             const rows = document.getElementById("beerRows");
             rows.innerHTML = "";
-            
+
+            // Message: nothing found, or how many beers are shown
             if (beers.length === 0) {
                 showMessage("No beers found.");
                 return;
             }
 
-            if(beers.length === 1){
+            if (beers.length === 1) {
                 showMessage("Found 1 beer.");
             } else {
                 showMessage("Found " + beers.length + " beers.");
             }
 
+            // One table row per beer
             for (const beer of beers) {
                 const row = document.createElement("tr");
+                // The name is a link to the Details page of this beer
                 const link = document.createElement("a");
 
                 link.href = "details.html?id=" + encodeURIComponent(beer.beer_id);
@@ -91,6 +99,7 @@
                 nameCell.appendChild(link);
                 row.appendChild(nameCell);
 
+                // The other columns, in the same order as the table header
                 addCell(row, beer.plato);
                 addCell(row, beer.style);
                 addCell(row, beer.abv);
@@ -98,20 +107,25 @@
             }
         }
 
+        // Add one plain cell to a table row
         function addCell(row, text) {
             const cell = document.createElement("td");
             cell.textContent = text;
             row.appendChild(cell);
         }
 
+        // Show a short message above the table
         function showMessage(text) {
             document.getElementById("message").textContent = text;
         }
 
+        // Search form: Enter or the Search button calls searchBeers()
         document.getElementById("searchForm").addEventListener("submit", (event) => {
             event.preventDefault();
             searchBeers();
         });
+
+        // Show all: clear the search box and load every beer
         document.getElementById("showAllButton").addEventListener("click", () => {
             document.getElementById("searchBox").value = "";
             loadBeers();
@@ -121,6 +135,7 @@
         // YOUR CODE (Tutorial 9)
         // =====================================================================
 
+        // GET /beers: load all beers and show them
         async function loadBeers() {
             try {
                 const response = await fetch("/beers");
@@ -136,6 +151,7 @@
             }
         }
 
+        // GET /beers/search?query=...: search with the text index (empty text = show all)
         async function searchBeers() {
             const text = document.getElementById("searchBox").value.trim();
             if (text === "") {
@@ -143,6 +159,7 @@
                 return;
             }
             try {
+                // encodeURIComponent makes the text safe to use in an address
                 const response = await fetch("/beers/search?query=" + encodeURIComponent(text));
                 if (!response.ok) {
                     showMessage("Search failed (status " + response.status + ")");
@@ -155,6 +172,8 @@
             }
         }
 
+
+        // When the page opens, load all beers
         loadBeers();
     </script>
 </body>

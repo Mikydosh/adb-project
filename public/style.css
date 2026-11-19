@@ -1,4 +1,6 @@
 /* Beer Catalog – Modern neutral, primary colour: blue */
+
+/* Colours and sizes used on all pages (change them here) */
 :root {
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
@@ -14,6 +16,7 @@
   --radius: 14px;
 }
 
+/* Page background and default font */
 body {
   background: var(--bg);
   color: var(--ink);
@@ -22,31 +25,33 @@ body {
 }
 
 /* Header */
-.app-header { 
-  background: #fff; 
-  border-top: 4px solid var(--primary); 
-  border-bottom: 1px solid var(--line); 
-  padding: 18px 0; 
+.app-header {
+  background: #fff;
+  border-top: 4px solid var(--primary);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
 }
 
-.app-header h1 { 
-  font-size: 1.45rem; 
-  font-weight: 800; 
-  margin: 0; 
-  letter-spacing: -.02em; 
+.app-header h1 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -.02em;
 }
 
 .app-header h1 img {
-   height: 1.5em; 
-   width: auto; 
-  }
-  
-.app-header p { 
-  margin: 2px 0 0; 
-  color: var(--muted); 
-  font-size: .92rem; 
+  height: 1.5em;
+  width: auto;
 }
 
+.app-header p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+
+/* Page content: maximum width and spacing */
 .app-main { max-width: 920px; padding-top: 30px; padding-bottom: 48px; }
 
 /* Search */
@@ -75,16 +80,37 @@ body {
 .page-title { font-size: 1.35rem; font-weight: 800; margin: 0; letter-spacing: -.01em; }
 #message { margin: 2px 0 0; color: var(--muted); font-size: .92rem; min-height: 1.4em; }
 
-/* Table */
+/* Table (.table-card is also the white card on the Details and form pages) */
 .table-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(30, 34, 53, .06), 0 8px 24px rgba(30, 34, 53, .05); }
+
 .table { --bs-table-bg: #fff; --bs-table-striped-bg: #fafafb; --bs-table-hover-bg: var(--primary-soft); --bs-table-border-color: var(--line); --bs-table-color: var(--text); }
+
 .table thead th { white-space: nowrap; background: var(--primary-soft); color: var(--ink); font-weight: 700; padding: 15px 20px; border-bottom: 2px solid var(--primary); }
 .table thead th .bi { margin-right: 6px; color: var(--primary); }
+
 .table td { padding: 14px 20px; }
+
 .table a { color: var(--primary-dark); font-weight: 600; text-decoration: none; }
 .table a:hover { color: var(--primary-darker); text-decoration: underline; }
 
+/* Phone: stack the toolbar, full-width buttons */
 @media (max-width: 575px) {
   .toolbar { flex-direction: column; align-items: stretch; }
   .search-bar .btn { flex: 1; }
 }
+
+/* Details and form pages */
+#beerTitle { font-size: 1.8rem; }
+.table-card .page-title { font-size: 1.1rem; }
+.table-card .page-title .bi { color: var(--primary); margin-right: 8px; }
+
+/* Label / value rows with thin dividers */
+.detail-list dt,
+.detail-list dd { margin: 0; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.detail-list dt:last-of-type,
+.detail-list dd:last-of-type { border-bottom: 0; }
+
+/* Form fields in the primary colour, same as the search bar */
+.form-control:focus,
+.form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .15); }
+#errors:empty { display: none; }

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Beer Catalog – Details</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🍺</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Page header with the logo -->
+    <header class="app-header">
+        <div class="container">
+            <h1><img src="img/hop.svg" alt=""> Beer Catalog</h1>
+        </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="container app-main">
+        <a href="index.html" class="btn btn-light mb-3"><i class="bi bi-arrow-left"></i> Back to all beers</a>
+        <!-- Status and error messages (filled by showMessage) -->
+        <p id="message"></p>
+
+
+        <!-- Heading: beer name and style (filled by showBeer) -->
+        <div class="mb-4">
+            <h2 class="page-title" id="beerTitle"></h2>
+            <p class="text-muted mb-0" id="beerSubtitle"></p>
+        </div>
+
+        <!-- Card with the beer fields (filled by showBeer) -->
+        <div class="table-card p-4 mb-3">
+            <h2 class="page-title mb-2"><i class="bi bi-info-circle"></i> Details</h2>
+            <dl id="beerFields" class="row mb-0 detail-list"></dl>
+        </div>
+
+        <!-- Card with the related brewery (filled by showBrewery) -->
+        <div class="table-card p-4 mb-3">
+            <h2 class="page-title mb-2"><i class="bi bi-building"></i> Brewery</h2>
+            <dl id="breweryFields" class="row mb-0 detail-list"></dl>
+        </div>
+
+        <!-- Edit and Delete (handled in the script below) -->
+        <div class="d-flex gap-2">
+            <button type="button" id="editButton" class="btn btn-primary"><i class="bi bi-pencil"></i> Edit</button>
+            <button type="button" id="deleteButton" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</button>
+        </div>
+    </main>
+
+    <script>
+        // =====================================================================
+        // GIVEN PART (from the tutorial, only field names changed)
+        // =====================================================================
+
+        // details.html?id=19 gives "19"
+        const id = new URLSearchParams(window.location.search).get("id");
+
+        // Show one beer: the heading and the "Details" card
+        function showBeer(beer) {
+            // Heading: name and style
+            document.getElementById("beerTitle").textContent = beer.name;
+            document.getElementById("beerSubtitle").textContent = beer.style;
+
+            // Details card: one line per field
+            const list = document.getElementById("beerFields");
+            list.innerHTML = "";
+            addField(list, "Beer ID", beer.beer_id);
+            addField(list, "ABV (%)", beer.abv);
+            addField(list, "Plato (°P)", beer.plato);
+            addField(list, "Description", beer.description);
+
+            // The browser tab shows the beer name
+            document.title = "Beer Catalog – " + beer.name;
+        }
+
+        // Show the related brewery (or a short note when there is none)
+        function showBrewery(brewery) {
+            const list = document.getElementById("breweryFields");
+            list.innerHTML = "";
+
+            // No brewery with this brewery_id
+            if (!brewery) {
+                addField(list, "Brewery", "Not found in the breweries collection");
+                return;
+            }
+
+            // The brewery fields
+            addField(list, "Name", brewery.name);
+            addField(list, "City", brewery.city);
+            addField(list, "Country", brewery.country);
+            addField(list, "Founded", brewery.founded_year);
+
+            // The website is shown as a clickable link
+            if (brewery.website) {
+                addLink(list, "Website", brewery.website);
+            }
+        }
+
+        // Add one "label: value" line to a <dl> list (dt = label, dd = value)
+        function addField(list, label, value) {
+            const term = document.createElement("dt");
+            term.className = "col-sm-3";
+            term.textContent = label;
+
+            const text = document.createElement("dd");
+            text.className = "col-sm-9";
+            text.textContent = value;
+            list.appendChild(term);
+            list.appendChild(text);
+        }
+
+        // A "label: link" line; adds https:// when the stored URL has no protocol
+        function addLink(list, label, url) {
+            const term = document.createElement("dt");
+            term.className = "col-sm-3";
+            term.textContent = label;
+
+            const text = document.createElement("dd");
+            text.className = "col-sm-9";
+
+            // The link itself: opens in a new tab
+            const link = document.createElement("a");
+            link.href = url.startsWith("http") ? url : "https://" + url;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.textContent = url;
+
+            // Put the link into the value cell and add both cells to the list
+            text.appendChild(link);
+            list.appendChild(term);
+            list.appendChild(text);
+        }
+
+        // Show a short message above the cards
+        function showMessage(text) {
+            document.getElementById("message").textContent = text;
+        }
+
+        // Edit opens the form with this beer; Delete calls deleteBeer()
+        document.getElementById("editButton").addEventListener("click", () => {
+            window.location.href = "form.html?id=" + encodeURIComponent(id);
+        });
+
+        document.getElementById("deleteButton").addEventListener("click", () => {
+            deleteBeer();
+        });
+
+        // =====================================================================
+        // YOUR CODE (Tutorial 10)
+        // =====================================================================
+
+        // A. Load the beer, then follow brewery_id to its brewery
+        async function loadDetails() {
+            try {
+                // 1. GET /beers/:id: ask the API for the beer
+                const response = await fetch("/beers/" + encodeURIComponent(id));
+
+                // 404: no beer with this id
+                if (response.status === 404) {
+                    showMessage("Beer " + id + " not found.");
+                    return;
+                }
+
+                // Any other error status
+                if (!response.ok) {
+                    showMessage("Could not load the beer (status " + response.status + ")");
+                    return;
+                }
+
+                // Read the beer and show it
+                const beer = await response.json();
+                showMessage("");
+                showBeer(beer);
+
+                // 2. GET /breweries/:id: follow the relationship beers.brewery_id -> breweries.brewery_id
+                const response2 = await fetch("/breweries/" + beer.brewery_id);
+                // No such brewery: the card shows a note
+                if (!response2.ok) {
+                    showBrewery(null);
+                    return;
+                }
+
+                // Read the brewery and show it
+                const brewery = await response2.json();
+                showBrewery(brewery);
+            } catch (error) {
+                showMessage("The API is not running. Start it with: node --env-file=.env server.js");
+            }
+        }
+
+        // B. Delete this beer, then go back to Home
+        async function deleteBeer() {
+            // Ask first: Cancel keeps the beer
+            if (!confirm("Delete beer " + id + "? This cannot be undone.")) {
+                return;
+            }
+
+            try {
+                // DELETE /beers/:id (fetch sends GET unless told otherwise)
+                const response = await fetch("/beers/" + encodeURIComponent(id), { method: "DELETE" });
+                if (!response.ok) {
+                    showMessage("Could not delete the beer (status " + response.status + ")");
+                    return;
+                }
+
+                // Deleted: go back to Home
+                window.location.href = "index.html";
+            } catch (error) {
+                showMessage("The API is not running. Start it with: node --env-file=.env server.js");
+            }
+        }
+
+        // C. When the page opens, load the details
+        loadDetails();
+    </script>
+</body>
+
+</html>
